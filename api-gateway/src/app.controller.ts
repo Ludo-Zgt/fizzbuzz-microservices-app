@@ -1,12 +1,19 @@
-import { Controller, Get } from '@nestjs/common';
+import { RequestCount } from './interfaces/requestCount';
+import { FizzBuzzRequestDto } from './dto/fizzbuzz-request.dto';
+import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post('/fizzbuzz')
+  computeFizzBuzz(@Body(ValidationPipe) dto: FizzBuzzRequestDto): string {
+    return this.appService.toFizzBuzz(dto);
+  }
+
+  @Get('/statistics/fizzbuzz')
+  getFirstFizzbuzzRequest(): RequestCount[] {
+    return this.appService.getFirstFizzbuzzRequest();
   }
 }
