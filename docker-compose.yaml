@@ -10,6 +10,32 @@ services:
       - .:/usr/src/app
     entrypoint: "tail -f /dev/null"
 
+  fizzbuzz:
+    container_name: fizzbuzz
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./fizzbuzz:/usr/src/app
+    ports:
+      - "4001:4001"
+    environment:
+      - FIZZ_HOST=fizzbuzz
+    command: "npm run start:dev"
+
+  gateway:
+    container_name: fizz-gateway
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./api-gateway:/usr/src/app
+    ports:
+      - "3000:3000"
+    environment:
+      - FIZZ_HOST=fizzbuzz
+    command: "npm run start:dev"
+
   redis:
     container_name: fizz-redis
     image: redis:6.2-alpine
