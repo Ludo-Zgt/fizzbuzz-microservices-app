@@ -21,6 +21,20 @@ services:
       - "4001:4001"
     environment:
       - FIZZ_HOST=fizzbuzz
+      - STATISTICS_HOST=statistics
+    command: "npm run start:dev"
+
+  statistics:
+    container_name: statistics
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./statistics:/usr/src/app
+    ports:
+      - "4002:4002"
+    environment:
+      - STATISTICS_HOST=statistics
     command: "npm run start:dev"
 
   gateway:
@@ -34,6 +48,7 @@ services:
       - "3000:3000"
     environment:
       - FIZZ_HOST=fizzbuzz
+      - STATISTICS_HOST=statistics
     command: "npm run start:dev"
 
   redis:

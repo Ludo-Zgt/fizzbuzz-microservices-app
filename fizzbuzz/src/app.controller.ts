@@ -7,7 +7,7 @@ import { MessagePattern } from '@nestjs/microservices';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @MessagePattern({ cmd: 'compute_fizzbuzz' })
+  @MessagePattern('compute_fizzbuzz')
   toFizzBuzz(data: FizzBuzzRequest): string {
     return this.appService.toFizzBuzz(data);
   }

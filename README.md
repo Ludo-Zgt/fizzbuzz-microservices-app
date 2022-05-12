@@ -1,5 +1,7 @@
 # FizzBuzz App in Microservices
 
+## Components
+
 ### API Gateway
 
 The Api Gateway will be the only HTTP entrypoint on port 3000.
@@ -21,3 +23,23 @@ This microservice is responsible for the statistics computing and the connection
 ### Redis
 
 Redis is use as a in-memory database store resquests scores and perform fast researches in a sorted set.
+
+## Run
+
+To start all containers run this command.
+
+```
+docker-compose up
+```
+
+The api-gateway is listening on port 3000.
+
+## Developement environment
+
+In an other terminal for development you can open the terminal of the node container.
+
+```
+docker exec -it node bash
+```
+
+From this terminal you can easily use the nest-cli to ceate other services or install new npm packages.

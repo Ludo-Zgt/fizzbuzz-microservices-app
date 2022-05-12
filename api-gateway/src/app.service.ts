@@ -8,13 +8,17 @@ import { Observable } from 'rxjs';
 }
 @Injectable()
 export class AppService {
-  constructor(@Inject('FIZZBUZZ') private readonly fizzbuzz: ClientProxy) {}
+  constructor(
+    @Inject('FIZZBUZZ') private readonly fizzbuzz: ClientProxy,
+    @Inject('STATISTICS') private readonly statistics: ClientProxy,
+  ) {}
 
   toFizzBuzz(req: FizzBuzzRequest): Observable<string> {
-    return this.fizzbuzz.send({ cmd: 'compute_fizzbuzz' }, req);
+    this.statistics.emit('compute_fizzbuzz', req);
+    return this.fizzbuzz.send('compute_fizzbuzz', req);
   }
 
-  getFirstFizzbuzzRequest(): RequestCount[] {
-    return [];
+  getFirstFizzbuzzRequest(): Observable<any> {
+    return this.statistics.send('get_statistics', {});
   }
 }

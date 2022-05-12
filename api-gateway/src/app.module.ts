@@ -14,6 +14,14 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
           port: 4001,
         },
       },
+      {
+        name: 'STATISTICS',
+        transport: Transport.TCP,
+        options: {
+          host: process.env.STATISTICS_HOST,
+          port: 4002,
+        },
+      },
     ]),
   ],
   controllers: [AppController],
