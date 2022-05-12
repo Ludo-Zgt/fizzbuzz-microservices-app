@@ -9,6 +9,7 @@ export class AppController {
 
   @MessagePattern('get_statistics')
   getFirstFizzbuzzRequest(): any {
+    console.log('get');
     return this.appService.geFirstFizzBuzzRequest();
   }
 

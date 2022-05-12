@@ -12,9 +12,13 @@ export class AppService {
   }
 
   async geFirstFizzBuzzRequest() {
-    const topRanked = await this.redis.zrevrange('fizzbuzz_request', 0, 0); //complexity O(log(N)+1)
-    const request = topRanked[0];
-    const count = await this.redis.zscore('fizzbuzz_request', request); //complexity O(1)
-    return { count, request: JSON.parse(request) };
+    try {
+      const topRanked = await this.redis.zrevrange('fizzbuzz_request', 0, 0); //complexity O(log(N)+1)
+      const request = topRanked[0];
+      const count = await this.redis.zscore('fizzbuzz_request', request); //complexity O(1)
+      return { count, request: JSON.parse(request) };
+    } catch (e) {
+      return [];
+    }
   }
 }

@@ -3,6 +3,19 @@ import * as request from 'supertest';
 describe('AppController (e2e)', () => {
   const url = 'http://fizz-gateway:3000';
 
+  describe('/statistics/fizzbuzz (GET)', () => {
+    describe('when there is data or not', () => {
+      it('should return an array', () => {
+        return request(url)
+          .get('/statistics/fizzbuzz')
+          .expect(200)
+          .expect((res) => {
+            Array.isArray(res.body);
+          });
+      });
+    });
+  });
+
   describe('/fizzbuzz (POST)', () => {
     describe('when params are not valid', () => {
       it('should return an error', () => {
@@ -24,13 +37,24 @@ describe('AppController (e2e)', () => {
   });
 
   describe('/statistics/fizzbuzz (GET)', () => {
-    describe('when there is data or not', () => {
-      it('should return an array', () => {
+    describe('when there is data', () => {
+      it('should return request and count', () => {
         return request(url)
           .get('/statistics/fizzbuzz')
           .expect(200)
           .expect((res) => {
-            Array.isArray(res.body);
+            res.body = [
+              {
+                count: 1,
+                request: {
+                  int1: 3,
+                  int2: 5,
+                  limit: 15,
+                  str1: 'Fizz',
+                  str2: 'Buzz',
+                },
+              },
+            ];
           });
       });
     });

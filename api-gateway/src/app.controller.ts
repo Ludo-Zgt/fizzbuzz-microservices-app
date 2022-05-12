@@ -16,7 +16,7 @@ export class AppController {
   }
 
   @Get('/statistics/fizzbuzz')
-  getFirstFizzbuzzRequest() {
+  getFirstFizzbuzzRequest(): Observable<any> {
     return this.appService.getFirstFizzbuzzRequest();
   }
 }

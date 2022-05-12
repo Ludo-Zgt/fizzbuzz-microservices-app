@@ -34,12 +34,66 @@ docker-compose up
 
 The api-gateway is listening on port 3000.
 
-## Developement environment
+## Run in development mode
 
-In an other terminal for development you can open the terminal of the node container.
+### Install
+
+The developmeent environment is contenerized.
 
 ```
-docker exec -it node bash
+docker-compose up --build
 ```
 
-From this terminal you can easily use the nest-cli to ceate other services or install new npm packages.
+```
+docker exec -it node-dev bash
+```
+
+```
+. install.sh
+```
+
+### Run
+
+Set containers `node-dev` and `redis-dev` up.
+
+```
+docker-compose --env-file .env.development up -d
+```
+
+At this time the application is not running. to do so you need to start each service individually in seperate terminals.
+
+```
+docker exec -it node-dev bash
+cd statistics
+npm run start:dev
+
+or
+
+make start-st
+```
+
+```
+docker exec -it node-dev bash
+cd fizzbuzz
+npm run start:dev
+
+or
+
+make start-fizz
+```
+
+```
+docker exec -it node-dev bash
+cd api-gateway
+npm run start:dev
+
+or
+
+make start-gtw
+```
+
+### Run in production mode
+
+```
+docker-compose --env-file .env.production -f ./docker-compose.prod.yaml up --build
+```

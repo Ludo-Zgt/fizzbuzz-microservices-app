@@ -2,59 +2,24 @@ version: "3.7"
 
 services:
   node:
-    container_name: node
+    container_name: node-dev
     build:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
       - .:/usr/src/app
+    env_file:
+      - .env.development
+    ports:
+      - "${API_GATEWAY_PORT}:${API_GATEWAY_PORT}"
     entrypoint: "tail -f /dev/null"
 
-  fizzbuzz:
-    container_name: fizzbuzz
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./fizzbuzz:/usr/src/app
-    ports:
-      - "4001:4001"
-    environment:
-      - FIZZ_HOST=fizzbuzz
-      - STATISTICS_HOST=statistics
-    command: "npm run start:dev"
-
-  statistics:
-    container_name: statistics
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./statistics:/usr/src/app
-    ports:
-      - "4002:4002"
-    environment:
-      - STATISTICS_HOST=statistics
-    command: "npm run start:dev"
-
-  gateway:
-    container_name: fizz-gateway
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./api-gateway:/usr/src/app
-    ports:
-      - "3000:3000"
-    environment:
-      - FIZZ_HOST=fizzbuzz
-      - STATISTICS_HOST=statistics
-    command: "npm run start:dev"
-
   redis:
-    container_name: fizz-redis
+    container_name: ${REDIS_HOST}
     image: redis:6.2-alpine
     restart: always
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:6379"
+    env_file:
+      - .env.development
     command: redis-server --save 20 1 --loglevel warning

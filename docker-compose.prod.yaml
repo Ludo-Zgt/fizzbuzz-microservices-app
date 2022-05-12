@@ -1,0 +1,56 @@
+version: "3.7"
+
+services:
+  fizzbuzz:
+    container_name: ${FIZZ_HOST}
+    build:
+      context: ./fizzbuzz
+      dockerfile: Dockerfile
+    volumes:
+      - ./fizzbuzz:/usr/src/app
+      - fizz_node_modules:/usr/src/app/node_modules
+    ports:
+      - "${FIZZ_PORT}:${FIZZ_PORT}"
+    env_file:
+      - .env.production
+
+  statistics:
+    container_name: ${STATISTICS_HOST}
+    build:
+      context: ./statistics
+      dockerfile: Dockerfile
+    volumes:
+      - ./statistics:/usr/src/app
+      - stat_node_modules:/usr/src/app/node_modules
+    ports:
+      - "${STATISTICS_PORT}:${STATISTICS_PORT}"
+    env_file:
+      - .env.production
+
+  gateway:
+    container_name: ${API_GATEWAY_HOST}
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    volumes:
+      - ./api-gateway:/usr/src/app
+      - gtw_node_modules:/usr/src/app/node_modules
+    ports:
+      - "${API_GATEWAY_PORT}:${API_GATEWAY_PORT}"
+    env_file:
+      - .env.production
+
+  redis:
+    container_name: ${REDIS_HOST}
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "${REDIS_PORT}:6379"
+    env_file:
+      - .env.production
+    command: redis-server --save 20 1 --loglevel warning
+
+volumes:
+  fizz_node_modules:
+  stat_node_modules:
+  gtw_node_modules:

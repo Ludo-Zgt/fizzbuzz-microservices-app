@@ -11,7 +11,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         transport: Transport.TCP,
         options: {
           host: process.env.FIZZ_HOST,
-          port: 4001,
+          port: +process.env.FIZZ_PORT,
         },
       },
       {
@@ -19,7 +19,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         transport: Transport.TCP,
         options: {
           host: process.env.STATISTICS_HOST,
-          port: 4002,
+          port: +process.env.STATISTICS_PORT,
         },
       },
     ]),
