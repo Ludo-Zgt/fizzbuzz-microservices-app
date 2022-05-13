@@ -97,3 +97,5 @@ make start-gtw
 ```
 docker-compose --env-file .env.production -f ./docker-compose.prod.yaml up --build
 ```
+
+The Api gateway is running on http://localhost:5000
